@@ -9,11 +9,14 @@ from collections import deque, namedtuple
 import matplotlib.pyplot as plt
 import torch.nn.functional as F
 import os
+import time
+
 
 env = gym.make("ALE/SpaceInvaders-v5", render_mode='rgb_array')
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
+start = time.time()
 
 class QNetwork(nn.Module):
     def __init__(self, state_shape, action_size, seed):
@@ -253,3 +256,7 @@ def create_video(agent, env, filename="lunar_lander.mp4"):
 
 agent.qnetwork_local.load_state_dict(torch.load('checkpoint.pth'))
 create_video(agent, env)
+
+
+end = time.time()
+print(f"Time: {end - start} seconds" )
